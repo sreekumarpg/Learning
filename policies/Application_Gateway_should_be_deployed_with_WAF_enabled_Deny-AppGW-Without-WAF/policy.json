@@ -1,0 +1,51 @@
+{
+ "properties": {
+  "displayName": "Application Gateway should be deployed with WAF enabled",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "description": "This policy enables you to restrict that Application Gateways is always deployed with WAF enabled",
+  "metadata": {
+   "version": "1.0.0",
+   "category": "Network",
+   "createdBy": "f93359ba-28fa-492f-bc0b-7e299b24f126",
+   "createdOn": "2022-04-10T14:39:00.6169305Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "Audit",
+     "Deny",
+     "Disabled"
+    ],
+    "defaultValue": "Deny"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Network/applicationGateways"
+     },
+     {
+      "field": "Microsoft.Network/applicationGateways/sku.name",
+      "notequals": "WAF_v2"
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/ALZ/providers/Microsoft.Authorization/policyDefinitions/Deny-AppGW-Without-WAF",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "Deny-AppGW-Without-WAF"
+}
