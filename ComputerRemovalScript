@@ -1,0 +1,19 @@
+# Define the input values
+$targetHostName = ""
+$targetObjectGUID = ""
+
+# Get the computer object that matches the Name and ObjectGUID
+$computer = Get-ADComputer -Filter { Name -eq $targetHostName -and ObjectGUID -eq $targetObjectGUID }
+
+# Check if the computer object was found
+if ($computer) {
+    Write-Host "Computer object found: $($computer.Name)"
+    Start-Sleep -Seconds 60
+    Write-Host "Deleting the computer object: $($computer.Name)..."
+    Start-Sleep -Seconds 60
+    # Delete the computer object
+    Remove-ADComputer -Identity $computer.DistinguishedName -Confirm:$false
+    Write-Host "Computer object $($computer.Name) deleted successfully."
+} else {
+    Write-Host "No computer object found with the specified Name '$targetHostName' and ObjectGUID '$targetObjectGUID'."
+}
