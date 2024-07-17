@@ -1,0 +1,24 @@
+# Define the input values
+$targetHostName = "yo-bh-01"
+$targetObjectGUID = "3146b66c-81cd-42f2-8ae4-8ae74739200f"
+
+# Get the computer object that matches the Name and ObjectGUID
+$computer = Get-ADComputer -Filter { Name -eq $targetHostName -and ObjectGUID -eq $targetObjectGUID }
+
+# Check if the computer object was found
+if ($computer) {
+    Write-Host "Computer object found: $($computer.Name)"
+    Start-Sleep -Seconds 5
+    Write-Host "Deleting the computer object: $($computer.Name)..."
+    # Delete the computer object
+    Remove-ADComputer -Identity $computer.DistinguishedName -Confirm:$false
+    Write-Host "Computer object $($computer.Name) deleted successfully."
+    
+    # Start AD sync cycle
+    Write-Host "Starting AD sync cycle..."
+    $syncResult = Start-ADSyncCycle -PolicyType Delta
+    Write-Host "AD sync cycle completed:"
+    Write-Host $syncResult
+} else {
+    Write-Host "No computer object found with the specified Name '$targetHostName' and ObjectGUID '$targetObjectGUID'."
+}
