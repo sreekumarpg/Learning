@@ -1,0 +1,17 @@
+# Define the input values
+$targetDNSHostName = "yo-bh-01.entralab.local"
+$targetObjectGUID = "3146b66c-81cd-42f2-8ae4-8ae74739200f"
+
+# Get the computer object that matches the DNSHostName and ObjectGUID
+$computer = Get-ADComputer -Filter { DNSHostName -eq $targetDNSHostName -and ObjectGUID -eq $targetObjectGUID }
+
+# Check if the computer object was found
+if ($computer) {
+    Write-Host "Computer object found:"
+    Write-Host "DNSHostName: $($computer.DNSHostName)"
+    Write-Host "ObjectGUID: $($computer.ObjectGUID)"
+    Write-Host "DistinguishedName: $($computer.DistinguishedName)"
+    # Do not delete, just print the information
+} else {
+    Write-Host "No computer object found with the specified DNSHostName and ObjectGUID."
+}
