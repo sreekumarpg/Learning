@@ -1,0 +1,35 @@
+# UnenrollFromIntune.ps1
+# This script will unenroll the device from Intune (MDM)
+
+# Set the error action preference to stop on error
+$ErrorActionPreference = "Stop"
+
+try {
+    # Load the COM object for MDM
+    $MdmClient = New-Object -ComObject "MDMBridge_Client"
+
+    # Unenroll the device from Intune
+    $MdmClient.Unenroll()
+
+    # Confirm disconnection
+    Write-Host "Device successfully unenrolled from MDM (Intune)."
+} catch {
+    # Catch any errors and display them
+    Write-Error "An error occurred while trying to unenroll the device: $_"
+}
+
+
+
+
+
+# Set the error action preference to stop on error
+$ErrorActionPreference = "Stop"
+
+# Load the COM object for MDM
+$MdmClient = New-Object -ComObject "MDMBridge_Client"
+
+# Unenroll the device from Intune
+$MdmClient.Unenroll()
+
+# Confirm disconnection
+Write-Host "Device successfully unenrolled from MDM (Intune)."
